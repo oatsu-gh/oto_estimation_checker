@@ -1,5 +1,7 @@
 # Oto Estimation Checker
-moresampler や setParam 自動推定に残念ながら失敗した部分を検出するツール（連続音のみ対応）
+日本語だと「自動原音設定エラーチェッカー」とか？
+
+moresampler や setParam の原音推定で残念ながらズレた部分を検出するツール（連続音のみ対応）
 
 ## 注意
 
