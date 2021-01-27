@@ -21,9 +21,12 @@ def remove_cv_and_rest(otoini):
     OtoIniから単独音と休符や息音素を除去する。
     """
     otoini.data = [
-        oto for oto in otoini if (
-            (' R' not in oto.alias) and ('息' not in oto.alias) and (' ' in oto.alias)
-        )
+        oto for oto in otoini if all([
+            ' ' in oto.alias,
+            ' R' not in oto.alias,
+            ' -' not in oto.alias,
+            '息' not in oto.alias
+        ])
     ]
 
 
@@ -166,14 +169,13 @@ def main(path):
 
     s += f'1拍当たりの時間の中央値 (ms): {int(ms_per_beat)}\n'
     s += f'median of time per beat (ms): {int(ms_per_beat)}\n'
-    s += '\n'
-    s += '\n'
+    s += '\n\n'
 
     s += '原音設定ミスの疑いがあるwavファイル名(明らかにずれてる)------------------\n'
     s += '1拍めがずれてそう------------------\n'
     s += '\n'.join(detect_bad_wavfiles(l_2d, ms_per_beat, median_start, threshold=0.9)) + '\n'
     s += '2拍め以降がずれてそう--------------\n'
-    s += '\n'.join(detect_bad_aliases(l_2d, ms_per_beat, threshold=0.9))
+    s += '\n'.join(detect_bad_aliases(l_2d, ms_per_beat, threshold=0.9)) + '\n\n'
 
     s += '原音設定ミスの疑いがあるwavファイル名(緩く検出)------------------\n'
     s += '1拍めがずれてそう------------------\n'
@@ -198,7 +200,8 @@ def main(path):
 
 
 if __name__ == '__main__':
+    print('_____ξ・ヮ・) < 自動原音設定でずれてる部分を検出するツール v0.0.1 ________')
     if len(argv) > 1:
         main(argv[1])
     else:
-        main(input('path_otoini: '))
+        main(input('Select oto.ini file / 原音設定ファイルをD&Dしてください\n>>> '))
