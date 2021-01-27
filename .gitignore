@@ -1,9 +1,4 @@
 __pycache__
-build
-dist
-release
-
-*.spec
 
 sorted_otoini.txt
 result.txt
