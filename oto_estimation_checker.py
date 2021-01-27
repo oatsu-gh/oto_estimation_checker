@@ -12,7 +12,7 @@ from sys import argv
 from typing import List
 
 import utaupy
-from tqdm import tqdm
+# from tqdm import tqdm
 from utaupy.otoini import Oto, OtoIni
 
 
@@ -25,7 +25,8 @@ def remove_cv_and_rest(otoini):
             ' ' in oto.alias,
             ' R' not in oto.alias,
             ' -' not in oto.alias,
-            '息' not in oto.alias
+            '息' not in oto.alias,
+            ' を' not in oto.alias
         ])
     ]
 
@@ -96,7 +97,7 @@ def detect_bad_wavfiles(list_oto_2d, ms_per_beat, median_start, threshold: float
     # チェックに通過できなかったファイル名のリスト
     bad_start_filenames: List[str] = []
     # 基準時刻とどの程度ずれてるかチェック
-    for l_oto in tqdm(list_oto_2d):
+    for l_oto in list_oto_2d:
         first_oto = l_oto[0]
         if not t_floor < (first_oto.offset + first_oto.preutterance) < t_ceil:
             bad_start_filenames.append(str(first_oto.filename))
@@ -110,7 +111,7 @@ def detect_bad_aliases(list_oto_2d, ms_per_beat, threshold: float = 0.5) -> list
     """
     bad_alias_wavfiles: List[str] = []
 
-    for l_oto in tqdm(list_oto_2d):
+    for l_oto in list_oto_2d:
         for i, oto in enumerate(l_oto[1:], 1):
             # 下限時刻と上限時刻を設定
             t_floor = ms_per_beat * (1 - threshold)
@@ -201,7 +202,10 @@ def main(path):
 
 if __name__ == '__main__':
     print('_____ξ・ヮ・) < 自動原音設定でずれてる部分を検出するツール v0.0.1 ________')
+    print('Copyright (c) 2001-2020 Python Software Foundation')
+    print('Copyright (c) 2020 oatsu')
     if len(argv) > 1:
         main(argv[1])
     else:
-        main(input('Select oto.ini file / 原音設定ファイルをD&Dしてください\n>>> '))
+        main(input('原音設定ファイルをD&Dしてください / Select oto.ini file\n>>> '))
+    input('Press Enter to exit.')
