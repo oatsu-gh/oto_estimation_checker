@@ -1,2 +1,8 @@
+__pycache__
+build
+dist
+
+*.spec
+
 sorted_otoini.txt
 result.txt
